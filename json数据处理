@@ -1,13 +1,13 @@
 package com.svail.population_mobility;
+
 import java.util.Vector;
 
-import org.json.JSONArray;  
-import org.json.JSONException;    
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.svail.util.FileTool;
 import com.svail.util.Tool;
- 
 
 public class JsonData {
 	public String Code;
@@ -16,72 +16,111 @@ public class JsonData {
 	public String CodeCoorLN;
 	public String CodeCoorLA;
 	public String CodeReg;
-	public static String Folder="D:/zhouxiang/人口数据/宾馆数据/人口统计/CodeResult .txt";
-	 public static void main(String[] args) {  
-		  
-		 productJson();
-	  
-	   }
-	 public JsonData(String line){
-		 if(line.indexOf("<Code>")!=-1)
-			 Code= Tool.getStrByKey(line,"<Code>","</Code>","</Code>");
-		 if(line.indexOf("<CodeAddr>")!=-1)
-			 CodeAddr= Tool.getStrByKey(line,"<CodeAddr>","</CodeAddr>","</CodeAddr>");
-		 if(line.indexOf("<CodeCoor>")!=-1){
-			 CodeCoor=Tool.getStrByKey(line,"<CodeCoor>","</CodeCoor>","</CodeCoor>");
-			 String[] arry=CodeCoor.split(";");
-			 CodeCoorLN=arry[0];
-			 CodeCoorLA=arry[1];
-		 }
-		if(line.indexOf("<CodeReg>")!=-1)
-			 CodeReg=Tool.getStrByKey(line,"<CodeReg>","</CodeReg>","</CodeReg>");
-		 
-		 
-	 }
-	 public static void productJson(){
-		 JSONObject jsonObj = new JSONObject();//创建json格式的数据  
-		  
-	      JSONArray jsonArr = new JSONArray();//json格式的数组  
-	  
-	    
-	      
-	  
-	      try {  
-	    	  Vector<String> rds = FileTool.Load(Folder,"UTF-8");
-	          for(int i=0;i<rds.size();i++)
-	          {
-	        	  String element=rds.elementAt(i);
-	        	  JsonData jsondata=new  JsonData(element);
-	        	  JSONObject jsonObjArr = new JSONObject();  
-	        	  
-	        	  
-	        	  jsonObjArr.put("CodeAddr",jsondata.CodeAddr);
-	        	  jsonObjArr.put("CodeCoorLN", jsondata.CodeCoorLN);  
-	        	  jsonObjArr.put("CodeCoorLA", jsondata.CodeCoorLA); 
-	        	  jsonObjArr.put("CodeReg",jsondata.CodeReg); 
-	        	  jsonObjArr.put("Code",jsondata.Code);  
-	        	  jsonArr.put(jsonObjArr);
-	        	  
-	 	          
-	          }
-	          
-	  
-	         //将json格式的数据放到json格式的数组里  
-	  
-	        // jsonObj.put("Points", jsonObjArr);//再将这个json格式的的数组放到最终的json对象中。  
-	  
-	         System.out.println(jsonArr);  
-	         FileTool.Dump(jsonArr.toString(), "D:/zhouxiang/人口数据/宾馆数据/人口统计/CodeJson .txt", "utf-8");
-	         
-	  
-	      } catch (JSONException e) {  
-	  
-	         // TODO Auto-generated catch block  
-	  
-	         e.printStackTrace();  
-	  
-	      }  
-		 
-	 }
+	public String Name;
+	public String PostCoor;
+	public String PostCoorLN;
+	public String PostCoorLA;
+	public String PostReg;
+	public String CtfId;
+	public String Gender;
+	public String Birth;
+	public String PostAddr;
+	public String Mobile;
+	public String PostCode;
+	public static String Folder = "D:/zhouxiang/人口数据/宾馆数据/人口统计/添加了通讯地址代码的数据.txt";
+
+	public static void main(String[] args) {
+
+		productJson();
+
+	}
+
+	public JsonData(String line) {
+		if (line.indexOf("<Code>") != -1)
+			Code = Tool.getStrByKey(line, "<Code>", "</Code>", "</Code>");
+		if (line.indexOf("<CodeAddr>") != -1)
+			CodeAddr = Tool.getStrByKey(line, "<CodeAddr>", "</CodeAddr>", "</CodeAddr>");
+		if (line.indexOf("<CodeCoor>") != -1) {
+			CodeCoor = Tool.getStrByKey(line, "<CodeCoor>", "</CodeCoor>", "</CodeCoor>");
+			String[] arry = CodeCoor.split(";");
+			CodeCoorLN = arry[0];
+			CodeCoorLA = arry[1];
+		}
+		if (line.indexOf("<CodeReg>") != -1)
+			CodeReg = Tool.getStrByKey(line, "<CodeReg>", "</CodeReg>", "</CodeReg>");
+
+		if (line.indexOf("<Name>") != -1)
+			Name = Tool.getStrByKey(line, "<Name>", "</Name>", "</Name>");
+		if (line.indexOf("<PostCoor>") != -1) {
+			PostCoor = Tool.getStrByKey(line, "<PostCoor>", "</PostCoor>", "</PostCoor>");
+			String[] arry = PostCoor.split(";");
+			PostCoorLN = arry[0];
+			PostCoorLA = arry[1];
+		}
+		if (line.indexOf("<PostReg>") != -1)
+			PostReg = Tool.getStrByKey(line, "<PostReg>", "</PostReg>", "</PostReg>");
+		if (line.indexOf("<CtfId>") != -1)
+			CtfId = Tool.getStrByKey(line, "<CtfId>", "</CtfId>", "</CtfId>");
+		if (line.indexOf("<Gender>") != -1)
+			Gender = Tool.getStrByKey(line, "<Gender>", "</Gender>", "</Gender>");
+		if (line.indexOf("<Birth>") != -1)
+			Birth = Tool.getStrByKey(line, "<Birth>", "</Birth>", "</Birth>");
+		if (line.indexOf("<PostAddr>") != -1)
+			PostAddr = Tool.getStrByKey(line, "<PostAddr>", "</PostAddr>", "</PostAddr>");
+		if (line.indexOf("<Mobile>") != -1)
+			Mobile = Tool.getStrByKey(line, "<Mobile>", "</Mobile>", "</Mobile>");
+		if (line.indexOf("<PostCode>") != -1)
+			PostCode = Tool.getStrByKey(line, "<PostCode>", "</PostCode>", "</PostCode>");
+
+	}
+
+	public static void productJson() {
+		JSONObject jsonObj = new JSONObject();// 创建json格式的数据
+
+		JSONArray jsonArr = new JSONArray();// json格式的数组
+
+		try {
+			Vector<String> rds = FileTool.Load(Folder, "UTF-8");
+			for (int i = 0; i < rds.size(); i++) {
+				String element = rds.elementAt(i);
+				JsonData jsondata = new JsonData(element);
+				JSONObject jsonObjArr = new JSONObject();
+
+				jsonObjArr.put("CodeAddr", jsondata.CodeAddr);
+				jsonObjArr.put("CodeCoorLN", jsondata.CodeCoorLN);
+				jsonObjArr.put("CodeCoorLA", jsondata.CodeCoorLA);
+				jsonObjArr.put("CodeReg", jsondata.CodeReg);
+				jsonObjArr.put("Code", jsondata.Code);
+				jsonObjArr.put("PostCode",jsondata.PostCode );
+				jsonObjArr.put("Name",jsondata.Name );
+				jsonObjArr.put("PostCoorLN",jsondata.PostCoorLN );
+				jsonObjArr.put("PostCoorLA", jsondata.PostCoorLA);
+				jsonObjArr.put("PostReg",jsondata.PostReg );
+				jsonObjArr.put("CtfId",jsondata.CtfId );
+				jsonObjArr.put("Gender",jsondata.Gender );
+				jsonObjArr.put("Birth", jsondata.Birth);
+				jsonObjArr.put("PostAddr",jsondata.PostAddr );
+				jsonObjArr.put("Mobile",jsondata.Mobile );
+				jsonArr.put(jsonObjArr);
+
+			}
+
+			// 将json格式的数据放到json格式的数组里
+
+			// jsonObj.put("Points", jsonObjArr);//再将这个json格式的的数组放到最终的json对象中。
+
+			//System.out.println(jsonArr);
+			System.out.println("开始写入txt中");
+			FileTool.Dump(jsonArr.toString(), "D:/zhouxiang/人口数据/宾馆数据/人口统计/peopleJson .txt", "utf-8");
+
+		} catch (JSONException e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		}
+
+	}
 
 }
