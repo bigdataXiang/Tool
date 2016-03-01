@@ -34,6 +34,12 @@ public class JsonData {
 		productJson();
 
 	}
+	
+	
+	
+	
+	
+	
 
 	public JsonData(String line) {
 		if (line.indexOf("<Code>") != -1)
