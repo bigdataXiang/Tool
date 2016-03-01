@@ -17,7 +17,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
@@ -29,6 +32,46 @@ import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 public class Tool {
+	/**
+	 * 统计某个字符串的个数
+	 */
+	public static void subCounter(String str1, String str2) {
+		 
+        int counter = 0;
+        for (int i = 0; i <= str1.length() - str2.length(); i++) {
+            if (str1.substring(i, i + str2.length()).equalsIgnoreCase(str2)) {
+                counter++;
+            }
+        }
+        System.out.println("子字符串的个数为： " + counter);
+ 
+    }
+	/**
+	 * 统计某个字符的个数
+	 */
+	public static void Count(){
+		  
+		  Scanner input = new Scanner(System.in);  
+		  System.out.println("请输入一段字符：");  
+		  String str = input.nextLine();  
+		    
+		  Map<Character,Integer> oos = new TreeMap<Character,Integer>();  
+		  for(int i=0;i<str.length();i++){  
+		       char ch = str.charAt(i);  
+		        if(!oos.containsKey(ch)) {  
+		    
+		             oos.put(ch, 1);                      
+		      }else{  
+		          int auto =oos.get(ch)+1;             
+		          oos.put(ch, auto);  
+		          }  
+		  }    
+		       Iterator<Character> ois = oos.keySet().iterator();           
+		  while(ois.hasNext()){             
+		        char temp = ois.next();            
+		          System.out.println(temp+"="+oos.get(temp));  
+		  }  
+	}
 	 /**
      * 处理冗余数据
      * @param filepath 原始文件路径
