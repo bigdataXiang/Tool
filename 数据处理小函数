@@ -14,13 +14,16 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.Vector;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
@@ -31,7 +34,222 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
+import net.sf.json.JSONObject;
+
 public class Tool {
+	public static void main(String[] args) {
+		delectRedundancy("D:/百度_代码+试运行结果/生态文明体制改革领导机构.txt");
+	}
+	public static void delectRedundancy(String file){
+		Vector<String> pois=FileTool.Load(file, "utf-8");
+		System.out.println("开始：size="+pois.size());
+		
+		HashSet<String> hh=new HashSet<String>();
+		Set<Integer> kk = new TreeSet<Integer>();
+		for(int i=0;i<pois.size();i++){
+			String poi=pois.elementAt(i);
+			JSONObject jsonObject =JSONObject.fromObject(poi);
+			String address=(String) jsonObject.get("Title");
+			// hh.add(address);
+			if (!hh.contains(address))
+			{
+				kk.add(i);
+				hh.add(address);
+			}
+		}
+		System.out.println("结束：size="+hh.size());
+	    
+		Iterator<Integer> itr = kk.iterator();
+		while (itr.hasNext())
+		{
+			//System.out.println(o);
+	        FileTool.Dump(pois.get(itr.next()), file.replace(".txt", "")+"-delectRedundancy.txt", "utf-8");
+		}
+	}
+	/**
+	 * 判断数组中的最大数
+	 * @param args
+	 * @return
+	 */
+	public static int getMaxNum(int args[]){
+	int max=0;
+	for(int i=0;i<args.length;i++){
+	if(args[i]>args[max])
+	max=i;
+	}
+	return args[max];
+	}
+	/**
+	 * 判断数组中的最大数对应的序号
+	 * @param args
+	 * @return
+	 */
+	public static int getMaxNum(double args[]){
+		int max=0;
+		for(int i=0;i<args.length;i++){
+		if(args[i]>args[max])
+		max=i;
+		}
+		return max;
+		}
+	/**
+	 * 判断数组中的最小数对应的序号
+	 * @param args
+	 * @return
+	 */
+	public static int getMinNum(int args[]){
+	int min=0;
+	for(int i=0;i<args.length;i++){
+	if(args[i]<args[min])
+	min=i;
+	}
+	return args[min];
+	}
+	/**
+	 * 判断数组中的最小数对应的序号
+	 * @param args
+	 * @return
+	 */
+	public static int getMinNum(double args[]){
+	int min=0;
+	for(int i=0;i<args.length;i++){
+	if(args[i]<args[min])
+	min=i;
+	}
+	return min;
+	}
+	
+	
+	static Hashtable<String, String> hm = new Hashtable<String, String>();
+	/**
+	 * 建立一个有key和value的哈希表
+	 * @param folder
+	 */
+	public static void ID_Hashtable(String folder) {
+
+		try {
+			File file = new File(folder);
+			FileInputStream fis = new FileInputStream(file);
+			InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+			BufferedReader reader = null;
+			String tempString = null;
+
+			reader = new BufferedReader(isr);
+			while ((tempString = reader.readLine()) != null) {
+				String key = Tool.getStrByKey(tempString, "<code>", "</code>", "</code>");
+				String key_value = Tool.getStrByKey(tempString, "<name>", "</name>", "</name>");
+				hm.put(key, key_value);
+			}
+			reader.close();
+			System.out.println("hashtable建立完毕！");
+		} catch (NullPointerException e1) {
+			e1.printStackTrace();
+			e1.getMessage();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+/**
+ * 通过keyword来寻找对应的value值
+ * @param keyword 索引值
+ * @return value值
+ */
+	public static String Hashtabe(String keyword) {
+		String value = "";
+		String num;
+		try {
+			Set<String> keySet = hm.keySet();// 在方法调用返回此映射中包含的键的set视图。
+			Iterator<String> it = keySet.iterator();
+			while (it.hasNext()) {
+				num = it.next();
+				if (num.equals(keyword)) {
+					value = hm.get(num);
+					// System.out.println(value);
+				}
+			}
+		} catch (NullPointerException e1) {
+			e1.printStackTrace();
+			System.out.println(e1.getMessage());
+		}
+		return value;
+	}
+	/**
+	 * 将数据进行排序
+	 * @param n 数组arr和pois的长度
+	 * @param arr 字符串中的数字数组
+	 * @param pois 字符串数组
+	 */
+	public static void InsertSortArray(int n, double[] arr,String[] pois) {
+		
+		for (int i = 1; i < n; i++)// 循环从第二个数组元素开始，因为arr[0]作为最初已排序部分
+		{
+			double temp = arr[i];// temp标记为未排序第一个元素
+			String strtemp=pois[i];
+			int j = i - 1;
+			while (j >= 0 && arr[j] < temp)/* 将temp与已排序元素从小到大比较，寻找temp应插入的位置 */
+			{
+				arr[j + 1] = arr[j];
+				pois[j + 1] = pois[j];
+				j--;
+			}
+			arr[j + 1] = temp;
+			pois[j + 1] = strtemp;
+		}
+	}
+	/**
+	 * 将数据进行排序
+	 * @param n 数组arr和pois的长度
+	 * @param arr 字符串中的数字数组
+	 * @param pois 字符串数组
+	 */
+	public static void InsertSortArray_Ascending(int n, int[] arr,String[] pois) {
+		
+		for (int i = 1; i < n; i++)// 循环从第二个数组元素开始，因为arr[0]作为最初已排序部分
+		{
+			int temp = arr[i];// temp标记为未排序第一个元素
+			String strtemp=pois[i];
+			int j = i - 1;
+			while (j >= 0 && arr[j] > temp)/* 将temp与已排序元素从小到大比较，寻找temp应插入的位置 */
+			{
+				arr[j + 1] = arr[j];
+				pois[j + 1] = pois[j];
+				j--;
+			}
+			arr[j + 1] = temp;
+			pois[j + 1] = strtemp;
+		}
+	}
+	/**
+	 * 将数据进行排序
+	 * @param n 数组arr和pois的长度
+	 * @param arr 字符串中的数字数组
+	 * @param pois 字符串数组
+	 */
+	public static void InsertSortArray_Descending(int n, int[] arr,String[] pois) {
+		
+		for (int i = 1; i < n; i++)// 循环从第二个数组元素开始，因为arr[0]作为最初已排序部分
+		{
+			int temp = arr[i];// temp标记为未排序第一个元素
+			String strtemp=pois[i];
+			int j = i - 1;
+			while (j >= 0 && arr[j] < temp)/* 将temp与已排序元素从小到大比较，寻找temp应插入的位置 */
+			{
+				arr[j + 1] = arr[j];
+				pois[j + 1] = pois[j];
+				j--;
+			}
+			arr[j + 1] = temp;
+			pois[j + 1] = strtemp;
+		}
+	}
 	/**
 	 * 统计某个字符串的个数
 	 */
@@ -136,7 +354,7 @@ public class Tool {
 	 */
 	public static String getStrByKey(String sContent, String sStart, String sEnd, String tag) {
 		String sOut = "";
-		String index="no";
+		String index="null";
 		try{
 			int fromIndex = 0;
 			int iBegin = 0;
